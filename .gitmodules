@@ -1,0 +1,3 @@
+[submodule "decrypter-grpc"]
+	path = decrypter-grpc
+	url = https://github.com/ralvarezdev/uru-information-security-decrypter-grpc
