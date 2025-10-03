@@ -5,12 +5,13 @@ import streamlit as st
 import grpc
 import pandas as pd
 
+from google.protobuf.empty_pb2 import Empty
 from microservice.grpc import (
 	DECRYPTER_GRPC_HOST,
 	DECRYPTER_GRPC_PORT
 )
 from microservice.grpc.decrypter import create_grpc_client
-from ralvarezdev import decrypter_pb2, decrypter_pb2_grpc
+from ralvarezdev import decrypter_pb2
 
 # UI
 st.set_page_config(layout="wide")
@@ -26,7 +27,7 @@ except Exception as e:
 @st.cache_data(ttl=60)
 def get_active_files():
     try:
-        response = stub.ListActiveFiles(decrypter_pb2.Empty())
+        response = stub.ListActiveFiles(Empty())
         file_list = []
         for company in response.company_files:
             for filename in company.filenames:
@@ -127,7 +128,7 @@ with tab2:
         if st.button("Delete All", disabled=not confirm, type="primary"):
             try:
                 with st.spinner("Deleting all files..."):
-                    stub.RemoveEncryptedFiles(decrypter_pb2.Empty())
+                    stub.RemoveEncryptedFiles(Empty())
                 st.success("All files have been deleted.")
                 st.cache_data.clear()
             except grpc.RpcError as e:
