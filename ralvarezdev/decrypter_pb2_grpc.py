@@ -37,7 +37,7 @@ class DecrypterStub(object):
         """
         self.ReceiveEncryptedFile = channel.stream_unary(
                 '/ralvarezdev.Decrypter/ReceiveEncryptedFile',
-                request_serializer=ralvarezdev_dot_decrypter__pb2.ReceiveEncryptFileRequest.SerializeToString,
+                request_serializer=ralvarezdev_dot_decrypter__pb2.ReceiveEncryptedFileRequest.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 _registered_method=True)
         self.RemoveEncryptedFile = channel.unary_unary(
@@ -100,7 +100,7 @@ def add_DecrypterServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'ReceiveEncryptedFile': grpc.stream_unary_rpc_method_handler(
                     servicer.ReceiveEncryptedFile,
-                    request_deserializer=ralvarezdev_dot_decrypter__pb2.ReceiveEncryptFileRequest.FromString,
+                    request_deserializer=ralvarezdev_dot_decrypter__pb2.ReceiveEncryptedFileRequest.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             ),
             'RemoveEncryptedFile': grpc.unary_unary_rpc_method_handler(
@@ -149,7 +149,7 @@ class Decrypter(object):
             request_iterator,
             target,
             '/ralvarezdev.Decrypter/ReceiveEncryptedFile',
-            ralvarezdev_dot_decrypter__pb2.ReceiveEncryptFileRequest.SerializeToString,
+            ralvarezdev_dot_decrypter__pb2.ReceiveEncryptedFileRequest.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
             options,
             channel_credentials,
