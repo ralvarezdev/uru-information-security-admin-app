@@ -35,10 +35,25 @@ class DecrypterStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.ListFiles = channel.unary_unary(
-                '/ralvarezdev.Decrypter/ListFiles',
+        self.ReceiveEncryptedFile = channel.stream_unary(
+                '/ralvarezdev.Decrypter/ReceiveEncryptedFile',
+                request_serializer=ralvarezdev_dot_decrypter__pb2.ReceiveEncryptFileRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                _registered_method=True)
+        self.RemoveEncryptedFile = channel.unary_unary(
+                '/ralvarezdev.Decrypter/RemoveEncryptedFile',
+                request_serializer=ralvarezdev_dot_decrypter__pb2.RemoveEncryptedFileRequest.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                _registered_method=True)
+        self.RemoveEncryptedFiles = channel.unary_unary(
+                '/ralvarezdev.Decrypter/RemoveEncryptedFiles',
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                response_deserializer=ralvarezdev_dot_decrypter__pb2.ListFilesResponse.FromString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                _registered_method=True)
+        self.ListActiveFiles = channel.unary_unary(
+                '/ralvarezdev.Decrypter/ListActiveFiles',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=ralvarezdev_dot_decrypter__pb2.ListActiveFilesResponse.FromString,
                 _registered_method=True)
         self.DecryptFile = channel.unary_stream(
                 '/ralvarezdev.Decrypter/DecryptFile',
@@ -50,16 +65,32 @@ class DecrypterStub(object):
 class DecrypterServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def ListFiles(self, request, context):
-        """List available files to decrypt
-        """
+    def ReceiveEncryptedFile(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoveEncryptedFile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoveEncryptedFiles(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ListActiveFiles(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def DecryptFile(self, request, context):
-        """Decrypt a file using streaming
-        """
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -67,10 +98,25 @@ class DecrypterServicer(object):
 
 def add_DecrypterServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'ListFiles': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListFiles,
+            'ReceiveEncryptedFile': grpc.stream_unary_rpc_method_handler(
+                    servicer.ReceiveEncryptedFile,
+                    request_deserializer=ralvarezdev_dot_decrypter__pb2.ReceiveEncryptFileRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'RemoveEncryptedFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveEncryptedFile,
+                    request_deserializer=ralvarezdev_dot_decrypter__pb2.RemoveEncryptedFileRequest.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'RemoveEncryptedFiles': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveEncryptedFiles,
                     request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-                    response_serializer=ralvarezdev_dot_decrypter__pb2.ListFilesResponse.SerializeToString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'ListActiveFiles': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListActiveFiles,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=ralvarezdev_dot_decrypter__pb2.ListActiveFilesResponse.SerializeToString,
             ),
             'DecryptFile': grpc.unary_stream_rpc_method_handler(
                     servicer.DecryptFile,
@@ -89,7 +135,34 @@ class Decrypter(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def ListFiles(request,
+    def ReceiveEncryptedFile(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(
+            request_iterator,
+            target,
+            '/ralvarezdev.Decrypter/ReceiveEncryptedFile',
+            ralvarezdev_dot_decrypter__pb2.ReceiveEncryptFileRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RemoveEncryptedFile(request,
             target,
             options=(),
             channel_credentials=None,
@@ -102,9 +175,63 @@ class Decrypter(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/ralvarezdev.Decrypter/ListFiles',
+            '/ralvarezdev.Decrypter/RemoveEncryptedFile',
+            ralvarezdev_dot_decrypter__pb2.RemoveEncryptedFileRequest.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RemoveEncryptedFiles(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ralvarezdev.Decrypter/RemoveEncryptedFiles',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            ralvarezdev_dot_decrypter__pb2.ListFilesResponse.FromString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListActiveFiles(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ralvarezdev.Decrypter/ListActiveFiles',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ralvarezdev_dot_decrypter__pb2.ListActiveFilesResponse.FromString,
             options,
             channel_credentials,
             insecure,
