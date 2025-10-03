@@ -1,19 +1,16 @@
-import streamlit as st
-import grpc
-import pandas as pd
-from google.protobuf import empty_pb2
-from ralvarezdev import decrypter_pb2, decrypter_pb2_grpc
 import io
 import zipfile
 
-# gRPC Configuration
-DECRYPTER_GRPC_HOST = "localhost"
-DECRYPTER_GRPC_PORT = 50053
+import streamlit as st
+import grpc
+import pandas as pd
 
-def create_grpc_client(host: str, port: int):
-    channel = grpc.insecure_channel(f"{host}:{port}")
-    stub = decrypter_pb2_grpc.DecrypterStub(channel)
-    return stub
+from microservice.grpc import (
+	DECRYPTER_GRPC_HOST,
+	DECRYPTER_GRPC_PORT
+)
+from microservice.grpc.decrypter import create_grpc_client
+from ralvarezdev import decrypter_pb2, decrypter_pb2_grpc
 
 # UI
 st.set_page_config(layout="wide")
@@ -29,7 +26,7 @@ except Exception as e:
 @st.cache_data(ttl=60)
 def get_active_files():
     try:
-        response = stub.ListActiveFiles(empty_pb2.Empty())
+        response = stub.ListActiveFiles(decrypter_pb2.Empty())
         file_list = []
         for company in response.company_files:
             for filename in company.filenames:
@@ -130,7 +127,7 @@ with tab2:
         if st.button("Delete All", disabled=not confirm, type="primary"):
             try:
                 with st.spinner("Deleting all files..."):
-                    stub.RemoveEncryptedFiles(empty_pb2.Empty())
+                    stub.RemoveEncryptedFiles(decrypter_pb2.Empty())
                 st.success("All files have been deleted.")
                 st.cache_data.clear()
             except grpc.RpcError as e:
